@@ -5,26 +5,28 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/a/awesome-slugify/awesome-slugify-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/a/awesome-slugify/awesome-slugify-{{ version }}.tar.gz
   sha256: bbdec3fa2187917473a2efad092b57f7125a55f841a7cf6a1773178d32ccfd71
   patches:
     - utf8.patch  # [win]
 
 build:
-  number: 5
+  number: 6
   noarch: python
-  script: python -m pip install --no-deps --ignore-installed .
+  script: {{ PYTHON }} -m pip install . --no-deps -vv
 
 requirements:
   host:
-    - python
+    - python {{ python_min }}
     - pip
   run:
-    - python
+    - python >={{ python_min }}
     - regex
     - unidecode >=1.1.1,<2.0
 
 test:
+  requires:
+    - python {{ python_min }}
   imports:
     - slugify
 
